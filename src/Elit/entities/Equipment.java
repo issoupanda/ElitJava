@@ -5,6 +5,7 @@
  */
 package Elit.entities;
 
+
 /**
  *
  * @author kinga
@@ -23,6 +24,11 @@ public class Equipment {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Equipment(int id, float qte) {
+        this.id = id;
+        this.qte = qte;
     }
 
     public String getLabel() {
