@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class DbConnection {
 
-    String url = "jdbc:mysql://localhost:3306/esprit";
+    String url = "jdbc:mysql://localhost:3306/pidevelit12";
     String login = "root";
     String mdp = "";
     Connection cnx;
