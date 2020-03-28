@@ -64,7 +64,7 @@ public class ElitMain {
           Classroom c3 = new Classroom(3, "C1", 550, "C");
         Event ev1 = new Event(11, "ev11", dd1, dd1, "fun","chem", C, c1);
         Event ev2 = new Event(211, "ev211", dd1, dd1, "fuun","cheem", C, c2);
-        Event ev3 = new Event(311, "ev311", dd1, dd1, "fuun","cheem", C, c1);
+        Event ev3 = new Event(311, "ev311", dd1, dd1, "fuun","cheem", C, c3);
         EventServices es = new EventServices();
         List<Equipment> le1 = new ArrayList<Equipment>();
         List<Equipment> le2 = new ArrayList<Equipment>();
@@ -74,9 +74,15 @@ public class ElitMain {
         le1.add(eq3);
         le2.add(eq2);
         lq1.add(1);
+        lq1.add(2);
         lq1.add(1);
-        lq1.add(1);
-        es.ajouterEvent(ev2, le1, lq1);
+   //   es.ajouterEvent(ev3, le1, lq1);
+      /*        Map<String,String> criteria = new HashMap<String,String>();
+        criteria.put("id", "11");
+       criteria.put("startdate", "2019-04-15");
+        System.out.println(es.listerEvent(criteria,"and"));*/
+ //    es.supprimerEvent(ev3);
+     // es.modifierEvent(ev2, le1, lq1);
     }
   
 }

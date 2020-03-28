@@ -169,7 +169,7 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Event{" + "id=" + id + ", title=" + title + ", startDate=" + startDate + ", startHour=" + startHour + ", description=" + description + ", logo=" + logo + ", club=" + club + ", classroom=" + classroom + ", equipements=" + equipements + '}';
+        return "\nEvent{" + "id=" + id + ", title=" + title + ", startDate=" + startDate + ", startHour=" + startHour + ", description=" + description + ", logo=" + logo + ", club=" + club + ", classroom=" + classroom + ", equipements=" + equipements + "}";
     }
 
     public List<Equipment> getEquipements() {

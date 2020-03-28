@@ -13,7 +13,9 @@ import Elit.entities.Classroom;
 import Elit.entities.Club;
 import Elit.entities.Equipment;
 import Elit.entities.Event;
+import Elit.entities.User;
 import Elit.utils.DbConnection;
+import Elit.utils.Mailer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,7 +42,7 @@ public class EventServices {
         cnx2 = DbConnection.getInstance().getCnx();
     }
 
-    public void ajouterEvent(Event e, List<Equipment> l, List<Integer> lq) {
+    public boolean ajouterEvent(Event e, List<Equipment> l, List<Integer> lq) {
 
         // verifier nb equip disponible sinn tt abandonner
         List<Equipment> myList = new ArrayList<Equipment>();
@@ -55,6 +58,7 @@ public class EventServices {
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            return false;
         }
         long ok = 0;  //respectd nbr
         for (int i = 0; i < l.size(); i++) {
@@ -100,6 +104,7 @@ public class EventServices {
                         System.out.println("eq ajoute");
                     } catch (SQLException ex) {
                         System.out.println(ex.getMessage());
+                        return false;
                     }
                 }
                 for (int i = 0; i < l.size(); i++) {
@@ -112,38 +117,48 @@ public class EventServices {
                         System.out.println("equip updated ajoute");
                     } catch (SQLException ex) {
                         System.out.println(ex.getMessage());
+                        return false;
                     }
                 }
 
                 System.out.println("ajout event good");
+                req = "select email from user";
+                 cnx2.prepareStatement(req);
+            ResultSet rs = pst.executeQuery(req);
+            while (rs.next())
+            {
+               System.out.println("sending emails"); 
+   /*  Mailer.send("elitjava3a17@gmail.com","elitjava",rs.getString(1),
+             "Hello ! Dont miss this new Event !",e.getTitle() + " at "+ e.getStartDate() 
+               +" \nfor more informations please check within your Website/Application "); */}
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
+                return false;
             }
         }else
         {
             System.out.println("Condition qte eq non respectée ");
+            return false;
         }
+        return true;
     }
-    /*
-    public List<Club> listerClub() {
-        List<Club> myList = new ArrayList<Club>();
+    
+    public List<Event> listerEvent() {
+        List<Event> myList = new ArrayList<Event>();
         try {
-            String req = "Select c.*, u.* from club c,user u where c.studentid = u.id";
+            String req = "Select e.*,c.*,cl.* from club c,event e,classrooms cl where e.idclub = c.id and e.idclassroom=cl.id";
             PreparedStatement pst = cnx2.prepareStatement(req);
             ResultSet rs = pst.executeQuery();//select bel execute query
             while (rs.next()) {
-                Club c = new Club();
+                User u = new User();
+                u.setId(rs.getInt(16));
+                Club club = new Club (rs.getInt(10),rs.getString(11),rs.getString(12),rs.getString(13),rs.getDate(14),rs.getString(15),u);
+                Classroom classroom = new Classroom(rs.getInt(17),rs.getString(18),rs.getInt(19),rs.getString(20));
+                Event e = new Event(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getDate(4), rs.getString(5),rs.getString(6), club, classroom);
 
-                c.setId(rs.getInt("id"));
-                c.setTitle(rs.getString(2));
-                c.setDescription(rs.getString(3));
-                c.setCategory(rs.getString(4));
-                c.setCreationDate(rs.getDate(5));
-                c.setLogo(rs.getString(6));
-                User u = new User(rs.getInt("id"), rs.getString("email"), rs.getString("fistname"), rs.getString("lastname"));
-
-                c.setPresident(u);
-                myList.add(c);
+                
+                
+                myList.add(e);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -151,18 +166,18 @@ public class EventServices {
         return myList;
     }
 
-    public List<Club> listerClub(Map<String, String> criteria, String op) {
-        // Lister mes clubs selon des parametres specifiés, et l'operateur specifie (and/or) , recherche avancée
-        List<Club> myList = new ArrayList<Club>();
+    public List<Event> listerEvent(Map<String, String> criteria, String op) {
+        // Lister mes events selon des parametres specifiés, et l'operateur specifie (and/or) , recherche avancée
+        List<Event> myList = new ArrayList<Event>();
         try {
             String crits = "";
 
             for (Map.Entry<String, String> entry : criteria.entrySet()) {
-                crits += "c." + entry.getKey() + " = ? " + op + " ";
+                crits += "e." + entry.getKey() + " = ? " + op + " ";
             }
             crits = crits.substring(0, crits.length() - 4);
             System.out.println(crits);
-            String req = "Select c.*, u.* from club c,user u where (" + crits + ") and c.studentid = u.id";
+            String req = "Select e.*,c.*,cl.* from club c,event e,classrooms cl where ("+crits+") and e.idclub = c.id and e.idclassroom=cl.id";
             PreparedStatement pst = cnx2.prepareStatement(req);
 
             int i = 1;
@@ -172,17 +187,16 @@ public class EventServices {
             }
             //System.out.println(pst.toString());
             ResultSet rs = pst.executeQuery();//select bel execute query
-            while (rs.next()) {
-                Club c = new Club();
-                c.setId(rs.getInt("id"));
-                c.setTitle(rs.getString(2));
-                c.setDescription(rs.getString(3));
-                c.setCategory(rs.getString(4));
-                c.setCreationDate(rs.getDate(5));
-                c.setLogo(rs.getString(6));
-                User u = new User(rs.getInt("id"), rs.getString("email"), rs.getString("fistname"), rs.getString("lastname"));
-                c.setPresident(u);
-                myList.add(c);
+         while (rs.next()) {
+                User u = new User();
+                u.setId(rs.getInt(16));
+                Club club = new Club (rs.getInt(10),rs.getString(11),rs.getString(12),rs.getString(13),rs.getDate(14),rs.getString(15),u);
+                Classroom classroom = new Classroom(rs.getInt(17),rs.getString(18),rs.getInt(19),rs.getString(20));
+                Event e = new Event(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getDate(4), rs.getString(5),rs.getString(6), club, classroom);
+
+                
+                
+                myList.add(e);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -190,11 +204,32 @@ public class EventServices {
         return myList;
     }
 
-    public int supprimerClub(Club c) {
+    public int supprimerEvent(Event e) {
         try {
-            int id = c.getId();
-            String req = "Delete from Club where id = ?";
+            int id = e.getId();
+            
+            String req = "select * from events_equipements where event_id = ?";
             PreparedStatement pst = cnx2.prepareStatement(req);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();//select bel execute query
+         Map<Integer,Integer> equips = new HashMap<Integer,Integer>();
+            while (rs.next()) { 
+         
+         equips.put(rs.getInt(2),rs.getInt(3));
+         }
+           for (Map.Entry<Integer,Integer> entry : equips.entrySet())
+           {
+                        req = "update equipement  set qte = qte +  ? where id = ?";
+                        pst = cnx2.prepareStatement(req);
+                        pst.setInt(2, entry.getKey());
+                        pst.setInt(1, entry.getValue());
+                        pst.executeUpdate();
+                      
+           }
+            
+         
+            req = "Delete from Event where id = ?";
+             pst = cnx2.prepareStatement(req);
             pst.setInt(1, id);
             System.out.println(pst.toString());
             return pst.executeUpdate();
@@ -205,32 +240,37 @@ public class EventServices {
         return -1;
     }
 
-    public void modifierClub(Club c) {
-        try {
-            int id = c.getId();
-            String title = c.getTitle();
-            String description = c.getDescription();
-            String category = c.getCategory();
-            Date creationDate = c.getCreationDate();
-            String logo = c.getLogo();
-            User president = c.getPresident();
-            String req = "update club set  title = ?, description = ? , category = ?, creationdate =  ? , logo = ? , studentid = ? where id = ?";
-            PreparedStatement pst = cnx2.prepareStatement(req);
-
-            pst.setString(1, title);
-            pst.setString(2, description);
-            pst.setString(3, category);
-            pst.setDate(4, new java.sql.Date(creationDate.getTime()));
-            pst.setString(5, logo);
-            pst.setInt(6, president.getId());
-            pst.setInt(7, id);
-            System.out.println(pst.toString());
-            pst.executeUpdate();
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+    public void modifierEvent(Event e,List<Equipment> l, List<Integer> lq) {
+        
+         Map<String,String> criteria = new HashMap<String,String>();
+        criteria.put("id", Integer.toString(e.getId()));
+        Event old = this.listerEvent(criteria, "and").get(0);//recuperer l'ancien event
+        List<Integer> lqold = new ArrayList<Integer>();
+        String req = "select * from events_equipements where event_id = ?";
+        try{
+        PreparedStatement pst = cnx2.prepareStatement(req);
+        pst.setInt(1, e.getId());
+      ResultSet rs= pst.executeQuery();
+       while(rs.next())
+       {
+           lqold.add(rs.getInt(3));
+       }
+            System.out.println(lqold);
+        }catch (Exception exc)
+        {
+            System.out.println(exc.getMessage());
         }
-
-    }*/
+        this.supprimerEvent(e);
+        if(this.ajouterEvent(e, l, lq) == true)
+        {
+            System.out.println("Modify success");
+        }
+        else
+        {
+            this.ajouterEvent(old,l,lqold);
+        }
+        
+        
+    }
 
 }

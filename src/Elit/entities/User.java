@@ -21,6 +21,9 @@ public class User {
         this.lastname = lastname;
     }
 
+    public User() {
+    }
+
     public User(int phoneNumber, int idrdv, String username, String email, String password, String type, String firstname, String lastname, String Birth, String profilePicture, String etat) {
        
         this.phoneNumber = phoneNumber;
