@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="650.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Elit.gui.OneClubController">
+   <children>
+      <ImageView fx:id="img" fitHeight="83.0" fitWidth="217.0" layoutX="90.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true" />
+      <VBox layoutX="28.0" layoutY="67.0" prefHeight="346.0" prefWidth="439.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="58.0" prefWidth="300.0">
+               <children>
+                  <Label text="Title" />
+                  <JFXTextField fx:id="title" prefHeight="26.0" prefWidth="226.0">
+                     <HBox.margin>
+                        <Insets left="60.0" />
+                     </HBox.margin>
+                  </JFXTextField>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="58.0" prefWidth="300.0">
+               <children>
+                  <Label text="Description" />
+                  <JFXTextField fx:id="desc" prefHeight="26.0" prefWidth="226.0">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </JFXTextField>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="58.0" prefWidth="300.0">
+               <children>
+                  <Label text="Category" />
+                  <JFXTextField fx:id="cat" prefHeight="26.0" prefWidth="226.0">
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </JFXTextField>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="58.0" prefWidth="300.0">
+               <children>
+                  <Label text="Creation Date" />
+                  <JFXDatePicker fx:id="cdate" prefHeight="28.0" prefWidth="257.0">
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </JFXDatePicker>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="58.0" prefWidth="300.0">
+               <children>
+                  <Label text="President" />
+                  <JFXComboBox fx:id="pres" prefHeight="26.0" prefWidth="231.0">
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </JFXComboBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+      <Button fx:id="edit" layoutX="454.0" layoutY="437.0" mnemonicParsing="false" onAction="#editClub" styleClass="dark-blue" stylesheets="@accueilelit.css" text="Edit" />
+      <Button fx:id="delete" layoutX="454.0" layoutY="505.0" mnemonicParsing="false" onAction="#deleteClub" styleClass="dark-blue" stylesheets="@accueilelit.css" text="Delete" />
+      <JFXTextField fx:id="picture" layoutX="85.0" layoutY="478.0" prefHeight="26.0" prefWidth="226.0" />
+      <Button fx:id="picPic" layoutX="142.0" layoutY="533.0" mnemonicParsing="false" onAction="#changePic" styleClass="dark-blue" stylesheets="@accueilelit.css" text="Select a picture" />
+   </children>
+</AnchorPane>

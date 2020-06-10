@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elit.gui.SmallEventController">
+   <children>
+      <ImageView fx:id="img" fitHeight="124.0" fitWidth="319.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <Separator layoutX="8.0" layoutY="160.0" prefHeight="20.0" prefWidth="382.0" style="-fx-background-color: #87CEEB;" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#88ceeb" height="53.0" layoutX="3.0" layoutY="144.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="199.0" />
+      <Rectangle fill="#ffffff00" height="300.0" stroke="#686868" strokeDashOffset="100.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeMiterLimit="100.0" strokeType="INSIDE" strokeWidth="4.0" width="390.0" />
+      <ImageView fitHeight="33.0" fitWidth="31.0" layoutX="8.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../IssamFiles/calendar.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="date" layoutX="51.0" layoutY="159.0" prefHeight="21.0" prefWidth="134.0" text="Date" textFill="WHITE">
+         <font>
+            <Font name="HP Simplified" size="19.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="eyeBtn" fitHeight="45.0" fitWidth="54.0" layoutX="335.0" layoutY="241.0" onMouseClicked="#goToDetail" onMouseEntered="#big" onMouseExited="#small" onMousePressed="#goToDetail" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../IssamFiles/eye.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="14.0" opacity="0.8" prefHeight="45.0" prefWidth="246.0" style="-fx-background-color: #88CEEB; -fx-background-radius: 115;" text="Title" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="HP Simplified" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="time" layoutX="55.0" layoutY="202.0" prefHeight="31.0" prefWidth="125.0" text="Time">
+         <font>
+            <Font name="HP Simplified" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="desc" alignment="TOP_LEFT" layoutX="200.0" layoutY="207.0" prefHeight="77.0" prefWidth="134.0" text="Description">
+         <font>
+            <Font name="HP Simplified" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="classroom" layoutX="55.0" layoutY="246.0" text="Place">
+         <font>
+            <Font name="HP Simplified" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="31.0" fitWidth="31.0" layoutX="8.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../IssamFiles/duration.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="31.0" fitWidth="35.0" layoutX="8.0" layoutY="241.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../IssamFiles/meeting-point.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="goToedit" fitHeight="53.0" fitWidth="55.0" layoutX="267.0" layoutY="239.0" onMouseClicked="#gotoedit" onMouseEntered="#big2" onMouseExited="#small2" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../IssamFiles/edit.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="wikiBtn" fitHeight="45.0" fitWidth="45.0" layoutX="202.0" layoutY="248.0" onMouseClicked="#gotoWiki" onMouseEntered="#big3" onMouseExited="#small3" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../IssamFiles/wikilogo.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

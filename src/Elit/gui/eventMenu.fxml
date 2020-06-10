@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="672.0" prefWidth="924.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elit.gui.EventMenuController">
+   <children>
+      <BorderPane fx:id="borderPane2" prefHeight="820.0" prefWidth="1124.0">
+         <left>
+            <VBox prefHeight="688.0" prefWidth="172.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton prefHeight="57.0" prefWidth="140.0" ripplerFill="#570e0e" style="-fx-background-color: #00ffff;" text="Welcome" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </JFXButton>
+                  <JFXButton fx:id="add" onAction="#goToAdd" prefHeight="55.0" prefWidth="141.0" style="-fx-background-color: #00ffff;" text="Add new" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView fitHeight="68.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../IssamFiles/add.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="view" onAction="#goToView" prefHeight="56.0" prefWidth="140.0" style="-fx-background-color: #00ffff;" text="Browse" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../IssamFiles/eye.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="back" onAction="#goBack" prefHeight="54.0" prefWidth="140.0" style="-fx-background-color: #00ffff;" text="Back" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../IssamFiles/back.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </left>
+         <top>
+            <Pane prefHeight="132.0" prefWidth="1000.0" style="-fx-background-color: #00ffff;" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="-9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../pictures/83508723_430423307681698_2318361073649975296_n.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
