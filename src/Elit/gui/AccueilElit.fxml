@@ -4,20 +4,32 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elit.gui.AccueilElitController">
+<AnchorPane id="AnchorPane" prefHeight="1000.0" prefWidth="1100.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elit.gui.AccueilElitController">
    <children>
-      <Button fx:id="btnClub" layoutX="121.0" layoutY="313.0" mnemonicParsing="false" onAction="#goToClub" prefHeight="69.0" prefWidth="179.0" style="-fx-background-color: #00ffff;" text="Clubs Management" textFill="WHITE">
+      <Pane prefHeight="320.0" prefWidth="1100.0" style="-fx-background-color: #00ffff;" />
+      <ImageView fitHeight="304.0" fitWidth="513.0" layoutX="545.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../IssamFiles/events.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="455.0" fitWidth="513.0" layoutX="22.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../IssamFiles/clubs.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="btnClub" layoutX="170.0" layoutY="651.0" mnemonicParsing="false" onAction="#goToClub" prefHeight="69.0" prefWidth="179.0" style="-fx-background-color: #00ffff;" text="Clubs Management" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <Button fx:id="btnEvent" layoutX="492.0" layoutY="314.0" mnemonicParsing="false" onAction="#gotToEvent" prefHeight="69.0" prefWidth="170.0" style="-fx-background-color: #00ffff;" text="Events Management" textFill="WHITE">
+      <Button fx:id="btnEvent" layoutX="713.0" layoutY="463.0" mnemonicParsing="false" onAction="#gotToEvent" prefHeight="69.0" prefWidth="170.0" style="-fx-background-color: #00ffff;" text="Events Management" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <ImageView fitHeight="250.0" fitWidth="335.0" layoutX="233.0" layoutY="40.0" pickOnBounds="true">
+      <ImageView fitHeight="345.0" fitWidth="513.0" layoutX="294.0" layoutY="25.0" pickOnBounds="true">
          <image>
             <Image url="@../../pictures/83508723_430423307681698_2318361073649975296_n.png" />
          </image>

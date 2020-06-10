@@ -17,6 +17,7 @@ import Elit.entities.User;
 import Elit.utils.Copy;
 import Elit.utils.DbConnection;
 import Elit.utils.Mailer;
+import Elit.utils.sqlexcept;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -46,7 +47,7 @@ public class EventServices {
         cnx2 = DbConnection.getInstance().getCnx();
     }
 
-    public boolean ajouterEvent(Event e, List<Equipment> l, List<Integer> lq) {
+    public boolean ajouterEvent(Event e, List<Equipment> l, List<Integer> lq) throws sqlexcept {
 int ide = -1;
         // verifier nb equip disponible sinn tt abandonner
         List<Equipment> myList = new ArrayList<Equipment>();
@@ -166,9 +167,11 @@ try {
             while (rs.next())
             {
                System.out.println("sending emails"); 
-  /*  Mailer.send("elitjava3a17@gmail.com","elitjava",rs.getString(1),
+    Mailer.send("elitjava3a17@gmail.com","elitjava",rs.getString(1),
              "Hello ! Dont miss this new Event !",e.getTitle() + " at "+ e.getStartDate() 
-               +" \nfor more informations please check within your Website/Application "); */}
+               +" \nfor more informations please check within your Website/Application "); 
+            break;
+            }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
                 return false;
@@ -176,7 +179,9 @@ try {
         }else
         {
             System.out.println("Condition qte eq non respectée ");
-            return false;
+            
+            throw new sqlexcept("Quantity not available");
+           
         }
         return true;
     }
@@ -278,34 +283,44 @@ try {
         return -1;
     }
 
-    public void modifierEvent(Event e,List<Equipment> l, List<Integer> lq) {
+    public void modifierEvent(Event e,List<Equipment> l, List<Integer> lq) throws sqlexcept {
         
-         Map<String,String> criteria = new HashMap<String,String>();
-        criteria.put("id", Integer.toString(e.getId()));
-        Event old = this.listerEvent(criteria, "and").get(0);//recuperer l'ancien event
-        List<Integer> lqold = new ArrayList<Integer>();
-        String req = "select * from events_equipements where event_id = ?";
         try{
-        PreparedStatement pst = cnx2.prepareStatement(req);
-        pst.setInt(1, e.getId());
-      ResultSet rs= pst.executeQuery();
-       while(rs.next())
-       {
-           lqold.add(rs.getInt(3));
-       }
-            System.out.println(lqold);
-        }catch (Exception exc)
+            
+            Map<String,String> criteria = new HashMap<String,String>();
+            criteria.put("id", Integer.toString(e.getId()));
+            Event old = this.listerEvent(criteria, "and").get(0);//recuperer l'ancien event
+            List<Integer> lqold = new ArrayList<Integer>();
+            String req = "select * from events_equipements where event_id = ?";
+            try{
+                PreparedStatement pst = cnx2.prepareStatement(req);
+                pst.setInt(1, e.getId());
+                ResultSet rs= pst.executeQuery();
+                while(rs.next())
+                {
+                    lqold.add(rs.getInt(3));
+                }
+                System.out.println(lqold);
+            }catch (Exception exc)
+            {
+                System.out.println(exc.getMessage());
+            }
+            
+            if(this.ajouterEvent(e, l, lq) == true)
+            {
+                System.out.println("Modify success");
+                this.supprimerEvent(e);
+            }
+            else
+            {
+                this.ajouterEvent(old,l,lqold);
+            }
+            
+            
+        }catch (sqlexcept ex)
         {
-            System.out.println(exc.getMessage());
-        }
-        this.supprimerEvent(e);
-        if(this.ajouterEvent(e, l, lq) == true)
-        {
-            System.out.println("Modify success");
-        }
-        else
-        {
-            this.ajouterEvent(old,l,lqold);
+            Logger.getLogger(EventServices.class.getName()).log(Level.SEVERE, null, ex);
+            throw new sqlexcept("Quantities non respected");
         }
         
         

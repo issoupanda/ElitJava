@@ -13,6 +13,7 @@ import Elit.entities.User;
 import Elit.services.ClubServices;
 import Elit.services.EventServices;
 import Elit.utils.DbConnection;
+import Elit.utils.sqlexcept;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -41,6 +42,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -155,6 +157,17 @@ public class AddEventController implements Initializable {
         File selected = fc.showOpenDialog(null);
         if(selected !=null)
         {
+            String extension = selected.getAbsolutePath().substring(selected.getAbsolutePath().length()-3,selected.getAbsolutePath().length());
+            System.out.println(extension);
+            if(!extension.equals( "jpg") && !extension.equals("png"))
+            {
+                              Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Picture");
+        alert.setHeaderText("Invalid picture format");
+        alert.setContentText("Verify your entries !png/jpg allowed"); 
+     
+        alert.showAndWait();
+            }else{
             img.setText(selected.getAbsolutePath());
                 Image i;
     try {
@@ -162,15 +175,24 @@ public class AddEventController implements Initializable {
          this.picture.setImage(i);
     } catch (FileNotFoundException ex) {
         Logger.getLogger(OneClubController.class.getName()).log(Level.SEVERE, null, ex);
+    }}
+        
     }
-        }else
-        {
-            System.out.println("invalid picture");
-        }
     }
-
     @FXML
     private void addEvent(ActionEvent event) {
+      
+        if(title.getText().isEmpty()|| startHour.getValue()==null || startDate.getValue()==null || Desc.getText().isEmpty() || img.getText().isEmpty()
+                || searchkey.getText().isEmpty() || classroom.getSelectionModel().getSelectedIndex()==-1 || Club.getSelectionModel().getSelectedIndex()==-1 )
+        {
+             Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid data");
+        alert.setHeaderText("Cannot add a new entry");
+        alert.setContentText("Verify your entries ! They cannot be empty"); 
+     
+        alert.showAndWait();
+        }else{
+        
         Classroom cls = ls.get(classroom.getSelectionModel().getSelectedIndex());
         Club c = lc.get(Club.getSelectionModel().getSelectedIndex());
         LocalTime lt =startHour.getValue();
@@ -185,7 +207,7 @@ public class AddEventController implements Initializable {
       
        Event e = new Event(0, title.getText(), startDate, startHour, Desc.getText(), img.getText(), c, cls,searchkey.getText());
         EventServices es = new EventServices();
-       
+try{          
 List<Equipment> le1 = new ArrayList<Equipment>();
 List<Integer> lq1 = new ArrayList<Integer>();
 
@@ -193,21 +215,43 @@ int i =0;
         for (JFXTextField j : tabT)
         {
             System.out.println(j.getText());
+         
             Integer qte = Integer.parseInt(j.getText());
-            if (qte > 0)
+             if (qte > 0)
             {
                 le1.add(le.get(i));
                 lq1.add(qte);
             }
+            
+           
             i++;
             
         }
         System.out.println(le1);
             System.out.println(lq1);
-     es.ajouterEvent(e, le1, lq1);
+            try {
+                es.ajouterEvent(e, le1, lq1);
+            } catch (sqlexcept ex) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                       alert.setTitle("Invalid data");
+        alert.setHeaderText("Cannot add a new entry");
+        alert.setContentText("The quantities are unavailable"); 
+     
+        alert.showAndWait();
+            }
+} catch(NumberFormatException n)
+            {
+                System.out.println(n.getMessage());
+                     Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid data");
+        alert.setHeaderText("Cannot add a new entry");
+        alert.setContentText("The quantities must be numbers"); 
+     
+        alert.showAndWait();
+            }
       //  System.out.println("ajout event + "+e);
         
-    }
+    }}
 
     
     

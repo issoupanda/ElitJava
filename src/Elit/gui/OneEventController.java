@@ -12,6 +12,7 @@ import Elit.entities.Event;
 import Elit.services.ClubServices;
 import Elit.services.EventServices;
 import Elit.utils.DbConnection;
+import Elit.utils.sqlexcept;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -41,6 +42,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -256,45 +258,68 @@ public class OneEventController implements Initializable {
 
     @FXML
     private void edit(ActionEvent event) {
-             Classroom cls = ls.get(classroom.getSelectionModel().getSelectedIndex());
-        Club c = lc.get(Club.getSelectionModel().getSelectedIndex());
-        LocalTime lt =startHour.getValue();
-       Calendar calendar= Calendar.getInstance();
-       Date startHour = new Date();
-       calendar.set(0, 0, 0, lt.getHour(), lt.getMinute(),0);
-       startHour=calendar.getTime();
-       LocalDate sd = startDate.getValue();
-       calendar.set(sd.getYear(),sd.getMonthValue()-1,sd.getDayOfMonth(),0,0,0);
-       Date startDate = new Date();
-       startDate=calendar.getTime();
-
-       Event e = new Event(this.event.getId(), title.getText(), startDate, startHour, Desc.getText(), img.getText(), c, cls,searchkey.getText());
-        EventServices es = new EventServices();
-       
-List<Equipment> le1 = new ArrayList<Equipment>();
-List<Integer> lq1 = new ArrayList<Integer>();
-
-int i =0;
-        for (JFXTextField j : tabT)
+        
+           if(title.getText().isEmpty()|| startHour.getValue()==null || startDate.getValue()==null || Desc.getText().isEmpty() || img.getText().isEmpty()
+                || searchkey.getText().isEmpty() || classroom.getSelectionModel().getSelectedIndex()==-1 || Club.getSelectionModel().getSelectedIndex()==-1 )
         {
-            System.out.println(j.getText());
-            Integer qte = Integer.parseInt(j.getText());
-            if (qte > 0)
-            {
-                le1.add(le.get(i));
-                lq1.add(qte);
-            }
-            i++;
-            
-        }
-        System.out.println(le1);
-            System.out.println(lq1);
-    if (e.getLogo().isEmpty()) e.setLogo("D:\\wamp64\\www\\PIDEV2020_ELIT_3A17\\web\\uploads\\issam_pic\\"+this.event.getLogo());
-     es.modifierEvent(e, le1, lq1);
-      //  System.out.println("ajout event + "+e);
+             Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid data");
+        alert.setHeaderText("Cannot add a new entry");
+        alert.setContentText("Verify your entries ! They cannot be empty"); 
+     
+        alert.showAndWait();
+        }else{
+        
+        
+        
+               try {
+                   Classroom cls = ls.get(classroom.getSelectionModel().getSelectedIndex());
+                   Club c = lc.get(Club.getSelectionModel().getSelectedIndex());
+                   LocalTime lt =startHour.getValue();
+                   Calendar calendar= Calendar.getInstance();
+                   Date startHour = new Date();
+                   calendar.set(0, 0, 0, lt.getHour(), lt.getMinute(),0);
+                   startHour=calendar.getTime();
+                   LocalDate sd = startDate.getValue();
+                   calendar.set(sd.getYear(),sd.getMonthValue()-1,sd.getDayOfMonth(),0,0,0);
+                   Date startDate = new Date();
+                   startDate=calendar.getTime();
+                   
+                   Event e = new Event(this.event.getId(), title.getText(), startDate, startHour, Desc.getText(), img.getText(), c, cls,searchkey.getText());
+                   EventServices es = new EventServices();
+                   
+                   List<Equipment> le1 = new ArrayList<Equipment>();
+                   List<Integer> lq1 = new ArrayList<Integer>();
+                   
+                   int i =0;
+                   for (JFXTextField j : tabT)
+                   {
+                       System.out.println(j.getText());
+                       Integer qte = Integer.parseInt(j.getText());
+                       if (qte > 0)
+                       {
+                           le1.add(le.get(i));
+                           lq1.add(qte);
+                       }
+                       i++;
+                       
+                   }
+                   System.out.println(le1);
+                   System.out.println(lq1);
+                   if (e.getLogo().isEmpty()) e.setLogo("D:\\wamp64\\www\\PIDEV2020_ELIT_3A17\\web\\uploads\\issam_pic\\"+this.event.getLogo());
+                   es.modifierEvent(e, le1, lq1);
+                   //  System.out.println("ajout event + "+e);
+               } catch (sqlexcept ex) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                       alert.setTitle("Invalid data");
+        alert.setHeaderText("Cannot add a new entry");
+        alert.setContentText("The quantities are unavailable"); 
+     
+        alert.showAndWait();
+               }
         
     
-    }
+    }}
 
     @FXML
     private void delete(ActionEvent event) {
